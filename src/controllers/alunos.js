@@ -47,6 +47,7 @@ module.exports = {
             let testeRa = await Student.findOne({ where: { ra: ra } });
 
             if(testeRa == null){
+                //método para criar um registro em uma tabela no banco de dados
                 let aluno = await Student.create({ra, nome, email, senha })
                 response.status(201).send({ id: aluno.id});
             }
@@ -61,7 +62,7 @@ module.exports = {
             response.status(500).send({ error })
 
         }
-                              //método para criar um registro em uma tabela no banco de dados
+                              
     
     
     },

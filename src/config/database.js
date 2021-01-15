@@ -7,6 +7,7 @@ module.exports = {
     dialect: "mysql",
     define: {
 
+        timezone: "-2:00",
         timestamp: true,
         underscored: true
     }

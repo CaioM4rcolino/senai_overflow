@@ -19,6 +19,10 @@ routes.delete("/alunos/:id", alunoController.deletarAluno);
 routes.put("/alunos/:id", alunoController.editarAluno);
 
 //configuração da rota de ALUNOS
+routes.get("/perguntas", perguntaController.index);
+routes.get("/perguntas/:id", perguntaController.index);
 routes.post("/perguntas", perguntaController.store);
+routes.put("/perguntas/:id", perguntaController.update);
+routes.delete("/perguntas/:id", perguntaController.delete)
 
 module.exports = routes;
