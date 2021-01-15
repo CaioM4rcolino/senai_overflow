@@ -24,6 +24,8 @@ class Student extends Model{
     //aqui configuramos os relacionamentos (chave primária <-> chave estrangeira)
     static associate(models){
         this.hasMany(models.Question, {foreignKey: "id_aluno"})
+        this.hasMany(models.Answer)
+
     }
 }
 

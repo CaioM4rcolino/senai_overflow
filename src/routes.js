@@ -4,6 +4,8 @@ const alunoController = require('./controllers/alunos');
 
 const perguntaController = require('./controllers/perguntas');
 
+const respostaController = require('./controllers/respostas');
+
 
 const routes = express.Router();
 
@@ -24,5 +26,9 @@ routes.get("/perguntas/:id", perguntaController.index);
 routes.post("/perguntas", perguntaController.store);
 routes.put("/perguntas/:id", perguntaController.update);
 routes.delete("/perguntas/:id", perguntaController.delete)
+
+routes.get("/perguntas/:id/respostas", respostaController.index);
+routes.get("/perguntas/:id/respostas/:idResposta", respostaController.find);
+routes.post("/perguntas/:id/respostas", respostaController.store);
 
 module.exports = routes;
