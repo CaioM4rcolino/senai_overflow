@@ -102,10 +102,22 @@ module.exports = {
     async update(req, res){
 
 
+
     },
     async delete(req, res){
         
     
+        // const question_id = req.params.id;
+        // const answer_id = req.params.idResposta;
+
+        // try {
+
+
+            
+        // } catch (error) {
+        //     console.log(error);
+        //         res.status(500).send(error)
+        // }
 
     }
 }
