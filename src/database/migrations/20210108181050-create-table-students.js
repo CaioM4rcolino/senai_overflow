@@ -10,7 +10,7 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    queryInterface.createTable("alunos", {
+    queryInterface.createTable("students", {
 
       id:{
 
@@ -23,7 +23,7 @@ module.exports = {
         allowNull: false,
         unique: true
       },
-      nome:{
+      name:{
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -31,7 +31,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      senha:{
+      password:{
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -55,6 +55,6 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
 
-     queryInterface.dropTable("alunos")
+     queryInterface.dropTable("students")
   }
 };

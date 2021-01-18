@@ -19,16 +19,21 @@ module.exports = {
         // }
 
         const question_id = req.params.id;
-        const answer_id = req.params.idResposta;
 
         try {
 
-            if(!answer_id){
+           
 
-                const list_answers = await Answer.findAll({where: {question_id: question_id}});
-                res.status(200).send(list_answers);
+            const list_answers = await Answer.findAll({
+                
+                where: {question_id: question_id},
 
-            }
+                attributes: ['id', 'description', 'student_id', 'created_at', 'updated_at']
+                
+            });
+            res.status(200).send(list_answers);
+
+            
             
             
         } catch (error) {
@@ -69,12 +74,12 @@ module.exports = {
     async find(req, res){
 
         const question_id = req.params.id;
-        const answer_id = req.params.idResposta;
+        const answer_id = req.params.answerId;
 
         try {
 
-            if(answer_id != null){
-                let listAnswerById = await Answer.findAll({
+            
+            const listAnswerById = await Answer.findAll({
                     where: 
                     {
                         [Op.and]: [
@@ -83,19 +88,21 @@ module.exports = {
                             {question_id: question_id}
                         ]
 
-                    }
+                    },
+                    attributes: ['id', 'description', 'student_id', 'created_at', 'updated_at']
                 }
                     );
 
                 if(!listAnswerById)
-                    res.status(404).send({Error: "Resposta não encontrada. Verifique se o ID procurado existe no banco de dados."});
+                    return res.status(404).send({Error: "Resposta não encontrada. Verifique se o ID procurado existe no banco de dados."});
                 else
                     res.status(200).send(listAnswerById);
 
-            }
+            
             
         } catch (error) {
-            
+            console.log(error);
+            res.status(500).send(error);
         }
 
     },
@@ -106,6 +113,18 @@ module.exports = {
     },
     async delete(req, res){
         
+    
+        // const question_id = req.params.id;
+        // const answer_id = req.params.idResposta;
+
+        // try {
+
+
+            
+        // } catch (error) {
+        //     console.log(error);
+        //         res.status(500).send(error)
+        // }
 
     }
 }

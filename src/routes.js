@@ -1,34 +1,38 @@
 const express = require("express");
 
-const alunoController = require('./controllers/alunos');
+const studentController = require('./controllers/students');
 
-const perguntaController = require('./controllers/perguntas');
+const questionController = require('./controllers/questions');
 
-const respostaController = require('./controllers/respostas');
+const answerController = require('./controllers/answers');
+
+const feedController = require('./controllers/feed');
 
 
 const routes = express.Router();
 
 //configuração da rota de ALUNOS
-routes.get("/alunos", alunoController.listarAlunos);
+routes.get("/students", studentController.index);
 
-routes.get("/alunos/:id", alunoController.listarAlunosPorId);
+routes.get("/students/:id", studentController.find);
 
-routes.post("/alunos", alunoController.inserirAlunos);
+routes.post("/students", studentController.store);
 
-routes.delete("/alunos/:id", alunoController.deletarAluno);
+routes.delete("/students/:id", studentController.delete);
 
-routes.put("/alunos/:id", alunoController.editarAluno);
+routes.put("/students/:id", studentController.update);
 
 //configuração da rota de ALUNOS
-routes.get("/perguntas", perguntaController.index);
-routes.get("/perguntas/:id", perguntaController.index);
-routes.post("/perguntas", perguntaController.store);
-routes.put("/perguntas/:id", perguntaController.update);
-routes.delete("/perguntas/:id", perguntaController.delete)
+routes.get("/questions", questionController.index);
+routes.get("/questions/:id", questionController.find);
+routes.post("/questions", questionController.store);
+routes.put("/questions/:id", questionController.update);
+routes.delete("/questions/:id", questionController.delete)
 
-routes.get("/perguntas/:id/respostas", respostaController.index);
-routes.get("/perguntas/:id/respostas/:idResposta", respostaController.find);
-routes.post("/perguntas/:id/respostas", respostaController.store);
+routes.get("/questions/:id/answers", answerController.index);
+routes.get("/questions/:id/answers/:answerId", answerController.find);
+routes.post("/questions/:id/answers", answerController.store);
+
+routes.get("/feed", feedController.index);
 
 module.exports = routes;

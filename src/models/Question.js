@@ -8,15 +8,14 @@ class Question extends Model{
             
             {
 
-            titulo: DataTypes.STRING,
-            descricao: DataTypes.STRING,
-            foto: DataTypes.STRING,
+            title: DataTypes.STRING,
+            description: DataTypes.STRING,
+            photo: DataTypes.STRING,
             gist: DataTypes.STRING
 
             },
             {
                 sequelize,
-                tableName: "perguntas"
             }
         
         )
@@ -24,7 +23,7 @@ class Question extends Model{
 
     //aqui configuramos os relacionamentos (chave primária <-> chave estrangeira)
     static associate(models){
-        this.belongsTo(models.Student, {foreignKey: "id_aluno"})
+        this.belongsTo(models.Student, {foreignKey: "student_id"})
         this.belongsToMany(models.Category, {through: "question_category"})
         this.hasMany(models.Answer)
     }

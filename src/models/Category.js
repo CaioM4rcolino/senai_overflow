@@ -8,7 +8,7 @@ class Category extends Model{
             
             {
 
-            descricao: DataTypes.STRING
+            description: DataTypes.STRING
         
             },
             {

@@ -8,14 +8,13 @@ class Student extends Model{
             {
 
             ra: DataTypes.STRING,
-            nome: DataTypes.STRING,
+            name: DataTypes.STRING,
             email: DataTypes.STRING,
-            senha: DataTypes.STRING
+            password: DataTypes.STRING
 
             },
             {
                 sequelize,
-                tableName: "alunos"
             }
         
         )
@@ -23,7 +22,7 @@ class Student extends Model{
 
     //aqui configuramos os relacionamentos (chave primária <-> chave estrangeira)
     static associate(models){
-        this.hasMany(models.Question, {foreignKey: "id_aluno"})
+        this.hasMany(models.Question, {foreignKey: "student_id"})
         this.hasMany(models.Answer)
 
     }

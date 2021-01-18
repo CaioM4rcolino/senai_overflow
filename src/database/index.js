@@ -1,19 +1,19 @@
 const Sequelize = require("sequelize");
 const dbConfig = require('../config/database');
 
-const Aluno = require("../models/Student");
-const Pergunta = require("../models/Question");
+const Student = require("../models/Student");
+const Question = require("../models/Question");
 const Category = require("../models/Category");
 const Answer = require("../models/Answer");
 
-const conexao = new Sequelize(dbConfig);
+const connection = new Sequelize(dbConfig);
 
-Aluno.init(conexao);
-Pergunta.init(conexao);
-Category.init(conexao);
-Answer.init(conexao)
+Student.init(connection);
+Question.init(connection);
+Category.init(connection);
+Answer.init(connection)
 
-Aluno.associate(conexao.models);
-Pergunta.associate(conexao.models);
-Category.associate(conexao.models)
-Answer.associate(conexao.models);
+Student.associate(connection.models);
+Question.associate(connection.models);
+Category.associate(connection.models)
+Answer.associate(connection.models);
