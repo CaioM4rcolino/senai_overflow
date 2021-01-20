@@ -47,7 +47,7 @@ module.exports = {
 
         const question_id = req.params.id;
         const {studentId} = req;
-        const answer_description = req.body.descricao;
+        const answer_description = req.body.description;
 
         try {
             
@@ -114,17 +114,33 @@ module.exports = {
     async delete(req, res){
         
     
-        // const question_id = req.params.id;
-        // const answer_id = req.params.idResposta;
+        const question_id = req.params.id;
+        const answer_id = req.params.answerId;
 
-        // try {
+        try {
 
+            let question = await Question.findByPk(question_id);
+            let answer = await Answer.findByPk(answer_id);
+            let deleteAnswer = "";
 
+        if(!question){
+            return res.status(404).send({Error: 'Pergunta não encontrada. Verifique se você especificou a pergunta correta no endpoint.'})
+        }
+        else{
+
+            if(!answer){
+                return res.status(404).send({Error: 'Resposta não encontrada.'})
+            }
+            else{
+                deleteAnswer = await answer.destroy();
+                return res.status(200).send({Sucess: 'Resposta deletada com sucesso.'})
+            }
+        }
             
-        // } catch (error) {
-        //     console.log(error);
-        //         res.status(500).send(error)
-        // }
+        } catch (error) {
+            console.log(error);
+                res.status(500).send(error)
+        }
 
     }
 }
