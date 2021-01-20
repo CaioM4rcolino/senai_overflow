@@ -1,4 +1,9 @@
 const Student = require('../models/Student');
+const { JsonWebTokenError } = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const auth = require("../config/auth.json");
+const jwt = require("jsonwebtoken");
+
 
 module.exports = {
 
@@ -41,15 +46,37 @@ module.exports = {
     async store(request, response){
 
         const {ra, name, email, password } = request.body;
+        const encryptedPassword = bcrypt.hashSync(password);
+
     
         try {
 
             let verifyRa = await Student.findOne({ where: { ra: ra } });
+            let verifyEmail = await Student.findOne({where: {email: email}});
 
             if(verifyRa == null){
+                if(verifyEmail == null){
                 //método para criar um registro em uma tabela no banco de dados
-                let student = await Student.create({ra, name, email, password })
-                response.status(201).send({ id: student.id});
+                let student = await Student.create({ra, name, email, password: encryptedPassword })
+              
+                const token = jwt.sign({studentId: student.id, studentName: student.name}, auth.secret);
+                response.status(201).send(
+                    {
+                        student: {
+                            studentId: student.id,
+                            name: student.name,
+                            RA: student.ra,
+                            email: student.email
+                        },
+                        token
+                    });
+
+                }
+                else{
+
+                    response.status(400).send({Error: 'Email já registrado. Insira um email único.'})
+
+                }
             }
             else{
                 response.status(400).send({Error: 'RA já registrado. Insira um RA único.'})

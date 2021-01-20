@@ -22,6 +22,8 @@ module.exports = {
           model: "questions", 
           key: "id"
         },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
         allowNull: false
       },
       student_id:{
@@ -30,6 +32,8 @@ module.exports = {
           model: "students", 
           key: "id"
         },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
         allowNull: false
       },
       description: {

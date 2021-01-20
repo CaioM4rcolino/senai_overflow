@@ -46,13 +46,13 @@ module.exports = {
     async store(req, res){
 
         const question_id = req.params.id;
-        const student_id = req.headers.authorization;
+        const {studentId} = req;
         const answer_description = req.body.descricao;
 
         try {
             
             let question = await Question.findByPk(question_id);
-            let student = await Student.findByPk(student_id);
+            let student = await Student.findByPk(studentId);
 
             if(!question){
                return res.status(404).send({Error: "Pergunta não existe."});
@@ -61,7 +61,7 @@ module.exports = {
                return res.status(404).send({Error: "Aluno não existe."});
             }
             
-            let answer = await question.createAnswer({description: answer_description, student_id: student_id});
+            let answer = await question.createAnswer({description: answer_description, student_id: studentId});
              
             res.status(200).send(answer);
 

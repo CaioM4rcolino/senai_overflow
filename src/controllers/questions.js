@@ -35,7 +35,8 @@ module.exports = {
      
 
         const {title, description, photo, gist, category} = req.body;
-        const studentId = req.headers.authorization;
+        const {studentId} = req;
+
         try {
             //buscar o aluno pelo ID
             //se aluno não existir, retorna erro
@@ -76,7 +77,7 @@ module.exports = {
     async update(req, res){
 
         const {title, description, photo, gist, category} = req.body;
-        const studentId = req.headers.authorization;
+        const {studentId} = req;
         const questionId = req.params.id
 
 
@@ -110,26 +111,19 @@ module.exports = {
     },
     async delete(req, res){
         
-        const studentId = req.headers.authorization;
+        const {studentId} = req;
         const questionId = req.params.id;
 
         try {
 
-            let question_student = await Question.findOne({where: {id: questionId, student_id: studentId}})
+            const question_student = await Question.findOne({where: {id: questionId, student_id: studentId}})
         
         
 
-                if(!question_student.id){
+                if(!question_student){
 
-                    res.status(404).send({Error: "ID not found: Pergunta não encontrada no banco de dados. Verifique se o ID digitado está correto."})
+                    return res.status(404).send({Error: "Pergunta não encontrada."})
 
-                    if(!question_student.student_id){
-
-                        res.status(401).send({Error: "ID Mismatch: Você não tenha autorização para deletar essa pergunta."})
-
-                    }
-
-                    
                 }
                 else{
 
