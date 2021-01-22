@@ -2,15 +2,7 @@ const Multer = require("multer");
 
 const uploadQuestion = Multer({
 
-    storage: Multer.diskStorage({
-        destination: "uploads/",
-        filename: (req, file, callback) => {
-            const filename = Date.now() + "." + file.originalname.split(".").pop();
-
-            return callback(null, filename)
-        }
-
-    }),
+    storage: Multer.memoryStorage(),
     fileFilter: (req, file, callback) => {
         let allowedTypes = ["image/png", "image/jpeg"];
 
@@ -23,7 +15,9 @@ const uploadQuestion = Multer({
     },
     limits: {fileSize: 1024 * 1024 * 2} // Máximo de 2MB
 
-
 });
+
+
+
 
 module.exports = uploadQuestion.single("photo");

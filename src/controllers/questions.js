@@ -8,6 +8,7 @@ const fs = require('fs');
 
 
 
+
 module.exports = {
 
     
@@ -34,7 +35,10 @@ module.exports = {
     }, 
     async store(req, res){
 
-        const {title, description, photo, gist, categories} = req.body;
+        const {firebaseUrl} = req.file;
+
+        // console.log(req.file);
+        const {title, description, gist, categories} = req.body;
 
         const arrayCategories = categories.split(",");
         const {studentId} = req;
@@ -49,19 +53,11 @@ module.exports = {
             if(!student)
                 return res.status(404).send({ Error: 'Aluno não encontrado'});
 
-            let question = await student.createQuestion({title, description, photo: req.file.filename, gist})
+            let question = await student.createQuestion({title, description, photo: firebaseUrl, gist})
 
             question.addCategories(arrayCategories);
 
-            res.status(201).send({
-                id:question.id,
-                title: question.title,
-                description: question.description,
-                created_at: question.created_at,
-                gist: question.gist,
-                photo: `http://localhost:3333/${req.file.path}`
-
-            });
+            res.status(201).send(question);
 
             
 
@@ -69,6 +65,8 @@ module.exports = {
             console.log(error);
             res.status(500).send(error);
         }
+
+        // console.log(req.file);
 
       
     },

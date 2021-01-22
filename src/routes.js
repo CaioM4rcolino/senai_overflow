@@ -5,6 +5,7 @@ const middlewareStudents = require("./middleware/students");
 const middlewareQuestions = require("./middleware/questions");
 const middlewareAnswers = require("./middleware/answers");
 const uploadQuestion = require('./middleware/uploadQuestion');
+const uploadImagem = require('./services/uploadFirebase');
 
 const studentController = require('./controllers/students');
 const questionController = require('./controllers/questions');
@@ -42,11 +43,20 @@ routes.get("/students/:id", studentController.find);
 routes.delete("/students/:id", studentController.delete);
 routes.put("/students/:id", studentController.update);
 
+const multer = require("multer");
+
+const Multer = multer({
+
+    storage: multer.memoryStorage(),
+    limits: {fileSize: 1024 * 1024 * 2}
+})
+
 //configuração da rota de PERGUNTAS
 routes.get("/questions", questionController.index);
 routes.get("/questions/:id", questionController.find);
 routes.post("/questions", 
-            uploadQuestion,
+            Multer.single("photo"),
+            uploadImagem,
             middlewareQuestions.create,
             questionController.store);
 routes.put("/questions/:id", questionController.update);
