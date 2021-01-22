@@ -1,10 +1,10 @@
 const express = require("express");
-const Multer = require("multer");
 
 const authMiddleware = require("./middleware/authorization");
 const middlewareStudents = require("./middleware/students");
 const middlewareQuestions = require("./middleware/questions");
 const middlewareAnswers = require("./middleware/answers");
+const uploadQuestion = require('./middleware/uploadQuestion');
 
 const studentController = require('./controllers/students');
 const questionController = require('./controllers/questions');
@@ -15,25 +15,18 @@ const sessionController = require('./controllers/sessions');
 
 const routes = express.Router();
 
-const multer = Multer({
+// const upload = multer.single("arquivo");
 
-    storage: Multer.diskStorage({
-        destination: "uploads/",
-        filename: (req, file, callback) => {
-            const filename = Date.now() + "." + file.originalname.split(".").pop();
+// routes.post("/upload", upload, (req, res) => {
 
-            return callback(null, filename)
-        }
-
-    })
-
-});
-
-routes.post("/upload", multer.single("arquivo"), (req, res) => {
-
-    console.log(req.file);
-    res.send(req.file);
-});
+//     upload(req, res, (error)=>{
+//         if(error){
+//             res.status(400).send({error})
+//         }
+//     })
+//     console.log(req.file);
+//     res.send(req.file);
+// });
 
 //rotas públicas
 routes.post("/sessions", sessionController.store);
@@ -52,7 +45,10 @@ routes.put("/students/:id", studentController.update);
 //configuração da rota de PERGUNTAS
 routes.get("/questions", questionController.index);
 routes.get("/questions/:id", questionController.find);
-routes.post("/questions", middlewareQuestions.create,questionController.store);
+routes.post("/questions", 
+            uploadQuestion,
+            middlewareQuestions.create,
+            questionController.store);
 routes.put("/questions/:id", questionController.update);
 routes.delete("/questions/:id", questionController.delete)
 

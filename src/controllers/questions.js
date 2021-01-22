@@ -4,6 +4,8 @@ const Answer = require('../models/Answer');
 const Category = require('../models/Category')
 const { response } = require('express');
 
+const fs = require('fs');
+
 
 
 module.exports = {
@@ -32,9 +34,9 @@ module.exports = {
     }, 
     async store(req, res){
 
-     
+        const {title, description, photo, gist, categories} = req.body;
 
-        const {title, description, photo, gist, category} = req.body;
+        const arrayCategories = categories.split(",");
         const {studentId} = req;
 
         try {
@@ -47,11 +49,20 @@ module.exports = {
             if(!student)
                 return res.status(404).send({ Error: 'Aluno não encontrado'});
 
-            let question = await student.createQuestion({title, description, photo, gist})
+            let question = await student.createQuestion({title, description, photo: req.file.filename, gist})
 
-            res.status(201).send(question);
+            question.addCategories(arrayCategories);
 
-            question.addCategories(category);
+            res.status(201).send({
+                id:question.id,
+                title: question.title,
+                description: question.description,
+                created_at: question.created_at,
+                gist: question.gist,
+                photo: `http://localhost:3333/${req.file.path}`
+
+            });
+
             
 
         } catch (error) {
@@ -117,7 +128,7 @@ module.exports = {
         try {
 
             const question_student = await Question.findOne({where: {id: questionId, student_id: studentId}})
-        
+            
         
 
                 if(!question_student){
@@ -128,7 +139,6 @@ module.exports = {
                 else{
 
                     await question_student.destroy();
-
                     res.status(200).send({Sucess: "Pergunta deletada com sucesso."});
                    
                 }

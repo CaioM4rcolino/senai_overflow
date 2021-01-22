@@ -7,9 +7,9 @@ module.exports = {
 
         [Segments.BODY]: Joi.object().keys({
             title: Joi.string().max(255).required(),
-            description: Joi.string().min(100).max(255).required(),
+            description: Joi.string().min(10).max(255).required(),
             gist: Joi.string().max(255),
-            category: Joi.array().required()            
+            categories: Joi.string().required()            
         })
 
     })
