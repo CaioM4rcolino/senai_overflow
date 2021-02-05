@@ -12,6 +12,7 @@ const questionController = require('./controllers/questions');
 const answerController = require('./controllers/answers');
 const feedController = require('./controllers/feed');
 const sessionController = require('./controllers/sessions');
+const categoryController = require('./controllers/categories');
 
 
 const routes = express.Router();
@@ -43,6 +44,7 @@ routes.get("/students/:id", studentController.find);
 routes.delete("/students/:id", studentController.delete);
 routes.put("/students/:id", studentController.update);
 
+//Middleware do multer para armazenamento em memória (volátil)
 const multer = require("multer");
 
 const Multer = multer({
@@ -68,6 +70,11 @@ routes.get("/questions/:id/answers/:answerId", answerController.find);
 routes.post("/questions/:id/answers", middlewareAnswers.create, answerController.store);
 routes.delete("/questions/:id/answers/:answerId", answerController.delete);
 
+
+//configuração da rota de categorias
+routes.get("/categories", categoryController.index);
+
+//configuração da rota do feed
 
 routes.get("/feed", feedController.index);
 

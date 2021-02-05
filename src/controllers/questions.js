@@ -35,8 +35,8 @@ module.exports = {
     }, 
     async store(req, res){
 
-        const {firebaseUrl} = req.file;
-
+        const {firebaseUrl} = req.file ? req.file : " ";
+       
         // console.log(req.file);
         const {title, description, gist, categories} = req.body;
 

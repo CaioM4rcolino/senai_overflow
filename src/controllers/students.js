@@ -1,8 +1,7 @@
 const Student = require('../models/Student');
 const { JsonWebTokenError } = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const auth = require("../config/auth.json");
-const jwt = require("jsonwebtoken");
+const { generateToken } = require('../utils');
 
 
 module.exports = {
@@ -59,7 +58,7 @@ module.exports = {
                 //método para criar um registro em uma tabela no banco de dados
                 let student = await Student.create({ra, name, email, password: encryptedPassword })
               
-                const token = jwt.sign({studentId: student.id, studentName: student.name}, auth.secret);
+                const token = generateToken({studentId: student.id, studentName: student.name});
                 response.status(201).send(
                     {
                         student: {
@@ -68,18 +67,19 @@ module.exports = {
                             RA: student.ra,
                             email: student.email
                         },
+                        
                         token
                     });
 
                 }
                 else{
 
-                    response.status(400).send({Error: 'Email já registrado. Insira um email único.'})
+                    response.status(400).send({error: 'Email já registrado. Insira um email único.'})
 
                 }
             }
             else{
-                response.status(400).send({Error: 'RA já registrado. Insira um RA único.'})
+                response.status(400).send({error: 'RA já registrado. Insira um RA único.'})
             }
 
 
@@ -143,7 +143,7 @@ module.exports = {
             }
             else{
 
-                response.status(200).send();
+                response.status(200).send({Sucess: "Estudante atualizado com sucesso."});
 
             }
             

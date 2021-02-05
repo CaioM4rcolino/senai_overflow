@@ -19,18 +19,16 @@ const uploadImagem = (req, res, next) => {
         return next();
     }
 
-    const imagem = req.file;
+    const image = req.file;
 
-    const nomeArquivo = Date.now() + "." + imagem.originalname.split(".").pop();
+    const fileName = Date.now() + "." + image.originalname.split(".").pop();
 
-
-
-    const file = bucket.file(nomeArquivo);
+    const file = bucket.file(fileName);
 
     const stream = file.createWriteStream({
 
         metadata: {
-            contentType: imagem.mimetype,
+            contentType: image.mimetype,
         },
 
     });
@@ -43,7 +41,9 @@ const uploadImagem = (req, res, next) => {
 
         await file.makePublic();
 
-        req.file.firebaseUrl = `https://storage.googleapis.com/${bucketAdress}/${nomeArquivo}`;
+        req.file.fileName = fileName;
+
+        req.file.firebaseUrl = `https://storage.googleapis.com/${bucketAdress}/${fileName}`;
 
         console.log("aqui-----",req.file)
 
@@ -51,7 +51,7 @@ const uploadImagem = (req, res, next) => {
 
     });
 
-    stream.end(imagem.buffer)
+    stream.end(image.buffer)
 
 }
 
