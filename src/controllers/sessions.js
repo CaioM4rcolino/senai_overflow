@@ -23,17 +23,21 @@ module.exports = {
 
             const token = generateToken({studentId: student.id, studentName: student.name});
 
-            res.status(201).send(
-                {
-                    student: {
-                        studentId: student.id,
-                        name: student.name,
-                        RA: student.ra,
-                        email: student.email
-                    },
-                    
-                    token
-            });
+            setTimeout(() => {
+                res.status(201).send(
+                    {
+                        student: {
+                            studentId: student.id,
+                            name: student.name,
+                            RA: student.ra,
+                            email: student.email,
+                            photo: student.photo
+                        },
+                        
+                        token
+                });
+            }, 2000)
+          
 
         } catch (error) {
             console.log(error);

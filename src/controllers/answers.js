@@ -55,10 +55,10 @@ module.exports = {
             let student = await Student.findByPk(studentId);
 
             if(!question){
-               return res.status(404).send({Error: "Pergunta não existe."});
+               return res.status(404).send({error: "Pergunta não existe."});
             }
             if(!student){
-               return res.status(404).send({Error: "Aluno não existe."});
+               return res.status(404).send({error: "Aluno não existe."});
             }
             
             let answer = await question.createAnswer({description: answer_description, student_id: studentId});
@@ -94,7 +94,7 @@ module.exports = {
                     );
 
                 if(!listAnswerById)
-                    return res.status(404).send({Error: "Resposta não encontrada. Verifique se o ID procurado existe no banco de dados."});
+                    return res.status(404).send({error: "Resposta não encontrada. Verifique se o ID procurado existe no banco de dados."});
                 else
                     res.status(200).send(listAnswerById);
 
@@ -124,12 +124,12 @@ module.exports = {
             let deleteAnswer = "";
 
         if(!question){
-            return res.status(404).send({Error: 'Pergunta não encontrada. Verifique se você especificou a pergunta correta no endpoint.'})
+            return res.status(404).send({error: 'Pergunta não encontrada. Verifique se você especificou a pergunta correta no endpoint.'})
         }
         else{
 
             if(!answer){
-                return res.status(404).send({Error: 'Resposta não encontrada.'})
+                return res.status(404).send({error: 'Resposta não encontrada.'})
             }
             else{
                 deleteAnswer = await answer.destroy();

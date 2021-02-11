@@ -4,10 +4,11 @@ const authMiddleware = require("./middleware/authorization");
 const middlewareStudents = require("./middleware/students");
 const middlewareQuestions = require("./middleware/questions");
 const middlewareAnswers = require("./middleware/answers");
-const uploadQuestion = require('./middleware/uploadQuestion');
+const uploadSingleImage = require('./middleware/uploadSingleImage');
 const uploadImagem = require('./services/uploadFirebase');
 
 const studentController = require('./controllers/students');
+const studentPhotoController = require('./controllers/studentPhoto');
 const questionController = require('./controllers/questions');
 const answerController = require('./controllers/answers');
 const feedController = require('./controllers/feed');
@@ -43,6 +44,7 @@ routes.get("/students", studentController.index);
 routes.get("/students/:id", studentController.find);
 routes.delete("/students/:id", studentController.delete);
 routes.put("/students/:id", studentController.update);
+routes.post("/students/:id/photo", uploadSingleImage, uploadImagem, studentPhotoController.store);
 
 //Middleware do multer para armazenamento em memória (volátil)
 const multer = require("multer");

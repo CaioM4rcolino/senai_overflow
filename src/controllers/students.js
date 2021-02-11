@@ -12,7 +12,7 @@ module.exports = {
 
             const students = await Student.findAll({
 
-                attributes: ['id', 'ra', 'name', 'email']
+                attributes: ['id', 'ra', 'name', 'email', 'photo']
             }) 
             response.send(students);
             

@@ -12,14 +12,14 @@ module.exports = {
             const questions = await Question.findAll({
                 include: [{
                     association: 'Student',
-                    attributes: ['id', 'name']
+                    attributes: ['id', 'name', 'photo']
                 },
                 {
                     association: 'Answers',
-                    attributes: ['id', 'description','student_id'],
+                    attributes: ['id', 'description','student_id', 'created_at'],
                     include: {
                         association: 'Student',
-                        attributes: ['id', 'name', 'created_at']
+                        attributes: ['id', 'name', 'photo']
                     }
                 },
                 {
@@ -31,7 +31,7 @@ module.exports = {
                 }],
                 order: [["created_at", "DESC"]]
              });
-     
+             
              res.status(200).send(questions);
 
         } catch (error) {
