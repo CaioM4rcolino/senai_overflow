@@ -29,7 +29,9 @@ module.exports = {
                     
                     
                 }],
-                order: [["created_at", "DESC"]]
+                order: [["created_at", "DESC"]],
+                limit: 5,
+                subQuery: false
              });
              
              res.status(200).send(questions);

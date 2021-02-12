@@ -8,12 +8,21 @@ const uploadSingleImage = require('./middleware/uploadSingleImage');
 const uploadImagem = require('./services/uploadFirebase');
 
 const studentController = require('./controllers/students');
+
 const studentPhotoController = require('./controllers/studentPhoto');
+
 const questionController = require('./controllers/questions');
+
 const answerController = require('./controllers/answers');
+
 const feedController = require('./controllers/feed');
+
 const sessionController = require('./controllers/sessions');
+
 const categoryController = require('./controllers/categories');
+
+const pageController = require('./controllers/pages');
+
 
 
 const routes = express.Router();
@@ -79,5 +88,8 @@ routes.get("/categories", categoryController.index);
 //configuração da rota do feed
 
 routes.get("/feed", feedController.index);
+
+//configuração da rota das páginas
+routes.get('/pages/:id', pageController.find);
 
 module.exports = routes;
