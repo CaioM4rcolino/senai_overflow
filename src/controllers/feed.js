@@ -1,6 +1,7 @@
 const Question = require('../models/Question');
 const Student = require('../models/Student');
 const Answer = require('../models/Answer');
+const { Sequelize } = require('sequelize');
 
 module.exports = {
 
@@ -9,6 +10,9 @@ module.exports = {
 
         try {            
             const questions = await Question.findAll({
+                
+                group: ['Question.id'],
+
                 include: [{
                     association: 'Student',
                     attributes: ['id', 'name', 'photo']
@@ -24,15 +28,16 @@ module.exports = {
                 {
                     association: 'Categories',
                     through:{attributes: []},
-                    attributes: ["id","description"]
-            
-                }],
+                    attributes: ["id",
+                    [Sequelize.fn('GROUP_CONCAT', Sequelize.col('categories.description')), 'description']]
+                    
+                },
+               ],
                 order: [["created_at", "DESC"]],
                 limit: 5,
                 subQuery: false
              });
              
-             console.log(questions);
              res.status(200).send(questions);
 
         } catch (error) {
@@ -66,6 +71,9 @@ module.exports = {
         try {      
         
             const questions = await Question.findAll({
+
+                group: ['Question.id'],
+
                 include: [{
                     association: 'Student',
                     attributes: ['id', 'name', 'photo']
@@ -81,7 +89,8 @@ module.exports = {
                 {
                     association: 'Categories',
                     through:{attributes: []},
-                    attributes: ["id", "description"]
+                    attributes: ["id",
+                    [Sequelize.fn('GROUP_CONCAT', Sequelize.col('categories.description')), 'description']]
                     
                     
                 }],
