@@ -21,8 +21,7 @@ const sessionController = require('./controllers/sessions');
 
 const categoryController = require('./controllers/categories');
 
-const pageController = require('./controllers/pages');
-
+const searchController = require('./controllers/search')
 
 
 const routes = express.Router();
@@ -88,8 +87,10 @@ routes.get("/categories", categoryController.index);
 //configuração da rota do feed
 
 routes.get("/feed", feedController.index);
+routes.get("/feed/:id", feedController.find)
 
-//configuração da rota das páginas
-routes.get('/pages/:id', pageController.find);
+//configuração da rota de pesquisa
+routes.get("/search", searchController.find)
+
 
 module.exports = routes;
