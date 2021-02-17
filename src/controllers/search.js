@@ -10,6 +10,30 @@ module.exports = {
         try {
 
             const question = await Question.findAll({
+
+                include: [{
+                    association: 'Student',
+                    attributes: ['id', 'name', 'photo']
+                },
+                {
+                    association: 'Answers',
+                    attributes: ['id', 'description','student_id', 'created_at'],
+                    include: {
+                        association: 'Student',
+                        attributes: ['id', 'name', 'photo']
+                    }
+                },
+                {
+                    association: 'Categories',
+                    through:{attributes: []},
+                    attributes: ["id",
+                    "description"]
+                    
+                },
+               ],
+                order: [["created_at", "DESC"]],
+                limit: 5,
+
                 where: {
                     [Op.or]: [
 
@@ -22,24 +46,11 @@ module.exports = {
                         
                         
                     ]
-                  
                    
                 }
             })
 
-            const answer = await Answer.findAll({
-                where: {
-                   description: {
-                       [Op.like]: `%${keyword}%`
-                   }
-                   
-                }
-            })
-
-        res.status(200).send({
-            question,
-            answer
-        })
+        res.status(200).send(question)
             
         } catch (error) {
             console.log(error)

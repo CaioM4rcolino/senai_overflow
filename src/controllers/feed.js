@@ -10,8 +10,6 @@ module.exports = {
 
         try {            
             const questions = await Question.findAll({
-                
-                group: ['Question.id'],
 
                 include: [{
                     association: 'Student',
@@ -29,13 +27,12 @@ module.exports = {
                     association: 'Categories',
                     through:{attributes: []},
                     attributes: ["id",
-                    [Sequelize.fn('GROUP_CONCAT', Sequelize.col('categories.description')), 'description']]
+                    "description"]
                     
                 },
                ],
                 order: [["created_at", "DESC"]],
-                limit: 5,
-                subQuery: false
+                limit: 5
              });
              
              res.status(200).send(questions);
@@ -48,7 +45,6 @@ module.exports = {
 
     },
 
-    //esse método vai ser usado quando o botão "VER MAIS" for implementado, ou seja o usuário vai fazer uma requisição para que ele avance uma página e mostre mais questões
     async find(req, res){
 
         for (let assoc of Object.keys(Question.associations)) {
@@ -58,21 +54,11 @@ module.exports = {
         }
 
         const idPage = req.params.id; 
-
-        //No mysql o offset começa com 0, mas no site o ideal seria que as páginas começassem com 1 (o usuário não entenderia página 0) então eu fiz com que a requisição na rota fosse normal (começasse com 1), e antes de mandar pro banco de dados eu subtraio esse parâmetro por 1, ou seja
-
-        //localhost:3333/feed/1 ---> Procuro a página 1
-
-        //offset = 1 - 1 = 0 ---> O banco vai procurar o offset 0
-        const offSet = idPage - 1;
-
-        //A forma que está sendo feita aqui (usando o Include) é a forma Eager Loading, que causa um bug na hora de buscar as questões -- o ideal seria usar Lazy loading, porém ainda não foi implementado devido a bugs
+        const offSet = (idPage - 1) * 5;
 
         try {      
         
             const questions = await Question.findAll({
-
-                group: ['Question.id'],
 
                 include: [{
                     association: 'Student',
@@ -80,6 +66,7 @@ module.exports = {
                 },
                 {
                     association: 'Answers',
+                    separate: true,
                     attributes: ['id', 'description','student_id', 'created_at'],
                     include: {
                         association: 'Student',
@@ -90,14 +77,13 @@ module.exports = {
                     association: 'Categories',
                     through:{attributes: []},
                     attributes: ["id",
-                    [Sequelize.fn('GROUP_CONCAT', Sequelize.col('categories.description')), 'description']]
+                    "description"]
                     
                     
                 }],
                 order: [["created_at", "DESC"]],
                 limit: 5,
-                offset: parseInt(offSet),
-                subQuery: false
+                offset: parseInt(offSet)
              });
              
              res.status(200).send(questions);

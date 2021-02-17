@@ -2,7 +2,7 @@ module.exports = {
 
     host: "localhost",
     username: "root",
-    password: "marcolinobd",
+    password: "bcd127",
     database:"senai_overflow",
     dialect: "mysql",
     define: {
