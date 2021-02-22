@@ -1,7 +1,7 @@
 
 var admin = require("firebase-admin");
 
-var serviceAccount = require("../config/firebase-key.json");
+var serviceAccount = require("../config/firebase-key");
 
 const bucketAdress = "senaioverflowstorage.appspot.com";
 

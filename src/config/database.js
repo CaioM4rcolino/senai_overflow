@@ -1,15 +1,13 @@
+require("dotenv").config();
+
 module.exports = {
-
-    host: "localhost",
-    username: "root",
-    password: "bcd127",
-    database:"senai_overflow",
-    dialect: "mysql",
-    define: {
-
-        timezone: "-2:00",
-        timestamp: true,
-        underscored: true
-    }
-
+    url: process.env.DATABASE_URL,
+    config: {
+        define: {
+            dialect: "mysql",
+            timezone: "-2:00",
+            timestamp: true,
+            underscored: true
+        }
+    },
 }
